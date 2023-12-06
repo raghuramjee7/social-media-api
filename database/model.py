@@ -14,6 +14,7 @@ class Post(Base):
     owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
 
     owner = relationship("User")
+
 class User(Base):
     __tablename__ = "users"
 
@@ -23,3 +24,9 @@ class User(Base):
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()"))
     
 
+class Vote(Base):
+    __tablename__ = "votes"
+
+    post_id = Column(Integer, ForeignKey("posts.id"), primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+    voted_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("now()"))

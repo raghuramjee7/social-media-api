@@ -1,0 +1,31 @@
+name: Build and deploy code
+# when to run the workflow
+# happens on every single pull and push on every branch
+on:
+  # provides a list of branches to run the workflow on for each action
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+# once we provide a trigger, we need to provide a job
+jobs:
+  job1:
+    # provide the type of machine to run the job on
+    runs-on: ubuntu-latest
+    # define the list of steps to run, 'uses' is the action to run and 'run' is the command to run
+    steps:
+      - name: pulling the git repo into the machine
+        uses: actions/checkout@v2
+      - name: setting up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: update pip
+        run: python -m pip install --upgrade pip
+      - name: installing dependencies
+        run: pip install -r requirements.txt
+      - name: running tests
+        run: pytest
+    
